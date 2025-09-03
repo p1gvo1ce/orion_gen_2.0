@@ -1,19 +1,13 @@
-import os
-import csv
-from datetime import datetime, timedelta, timezone
-
 import discord
 from discord.ext import commands
-
+from utils.logger import get_logger, set_process
 
 intents = discord.Intents.all()
-intents.message_content = True
-intents.guild_messages = True
-intents.dm_messages = False
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix="!", intents=intents)
 
-def get_bot():
-    return bot
-
-async def run_bot(token):
+async def run_bot(token: str):
+    log = get_logger(module="discord_bot")
+    set_process("discord_bot")            # тот же event_id, новый процесс
+    log.INFO("Starting bot...")
     await bot.start(token)
+    log.INFO("Bot started")
